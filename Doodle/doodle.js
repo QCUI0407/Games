@@ -2,8 +2,10 @@ document.addEventListener('DOMContentLoaded', () =>{
     const grid = document.querySelector('.grid')
     const doodler = document.createElement('div')
     let doodlerLeftSpace = 50
-    let doodlerBottomSpace = 150
+    let doodlerBottomSpace = 250
     let isGmaeOVer = false
+    let platCount = 5
+    let platform = []
 
     function createDoodler(){
         grid.appendChild(doodler)
@@ -30,7 +32,19 @@ document.addEventListener('DOMContentLoaded', () =>{
         for(let i=0; i<platCount; i++){
             let platGap = 600/ platCount
             let newPlatBottom = 100 + i * platGap
-            let newPlatform = new Platform()
+            let newPlatform = new Platform(newPlatBottom)
+            platform.push(newPlatform)
+            console.log(platform);
+        }
+    }
+
+    function movePlatforms(){
+        if (doodlerBottomSpace > 200){
+            platform.forEach(plat => {
+                plat.bottom -= 4
+                let visual = plat.visual
+                visual.style.bottom = plat.bottom + 'px'
+            })
         }
     }
 
@@ -38,9 +52,10 @@ document.addEventListener('DOMContentLoaded', () =>{
         if (isGmaeOVer == false){
             createDoodler()
             createPlatforms()
+          setInterval(movePlatforms,30)
         }
     }
-    createDoodler()
 
     //attach to buttin
+    start()
 })
