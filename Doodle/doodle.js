@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () =>{
     let isGmaeOVer = false
     let platCount = 5
     let platform = []
+    let upTimerId
+    let downTimerval
 
     function createDoodler(){
         grid.appendChild(doodler)
@@ -48,14 +50,34 @@ document.addEventListener('DOMContentLoaded', () =>{
         }
     }
 
+    function jump(){
+        clearInterval(downTimerval)
+        upTimerId = setInterval(function(){
+            doodlerBottomSpace += 20
+            doodler.style.bottom = doodlerBottomSpace + 'px'
+            if(doodlerBottomSpace > 350){
+                fall()
+            }
+        }, 30)
+    }
+
+    function fall(){
+        clearInterval(upTimerId)
+        downTimerval =setInterval(function(){
+            doodlerBottomSpace -= 5
+            doodler.style.bottom = doodlerBottomSpace + 'px'
+        })
+    }
+
     function start(){
         if (isGmaeOVer == false){
             createDoodler()
             createPlatforms()
-          setInterval(movePlatforms,30)
+            setInterval(movePlatforms,30)
+            jump()
         }
     }
 
-    //attach to buttin
+    //attach to button
     start()
 })
